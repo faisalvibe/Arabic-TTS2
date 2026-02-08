@@ -63,6 +63,13 @@ jobs:
           rm -rf android-app/app/src/main/assets/voice/ar/espeak-ng-data
           cp -R /tmp/vits-piper-ar_JO-kareem-low/espeak-ng-data android-app/app/src/main/assets/voice/ar/espeak-ng-data
 
+      - name: Download sherpa-onnx Android AAR (1.12.23)
+        run: |
+          set -eux
+          mkdir -p android-app/app/libs
+          curl -L -o android-app/app/libs/sherpa-onnx-1.12.23.aar \
+            https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.23/sherpa-onnx-1.12.23.aar
+
       - name: Build debug APK
         run: ./android-app/gradlew -p android-app assembleDebug --stacktrace
 
