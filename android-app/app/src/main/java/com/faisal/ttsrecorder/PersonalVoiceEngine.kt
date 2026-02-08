@@ -24,8 +24,14 @@ class PersonalVoiceEngine(private val context: Context) {
         val dir = modelDir(lang)
         return try {
             val files = context.assets.list(dir) ?: return false
-            val ok = files.contains("model.onnx") && files.contains("tokens.txt")
-            DebugLog.i("ENGINE", "isModelInstalled lang=$lang dir=$dir ok=$ok files=${files.joinToString()}")
+            val hasModel = files.contains("model.onnx")
+            val hasTokens = files.contains("tokens.txt")
+            val hasJson = files.contains("model.onnx.json")
+            val ok = hasModel && hasTokens
+            DebugLog.i(
+                "ENGINE",
+                "isModelInstalled lang=$lang dir=$dir ok=$ok hasModel=$hasModel hasTokens=$hasTokens hasJson=$hasJson files=${files.joinToString()}"
+            )
             ok
         } catch (_: Exception) {
             DebugLog.i("ENGINE", "isModelInstalled lang=$lang dir=$dir failed_to_list_assets")

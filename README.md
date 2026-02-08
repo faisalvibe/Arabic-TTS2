@@ -37,7 +37,7 @@ Practical path:
 
 1. Record more high-quality clips (target 30-60+ minutes for decent quality).
 2. Export dataset with `scripts/mini_tts/export_dataset.py`.
-3. Train/export a mobile-ready model from that dataset (`model.onnx` + `tokens.txt`, and `espeak-ng-data` when required).
+3. Train/export a mobile-ready model from that dataset (`model.onnx` + `model.onnx.json` + `tokens.txt`, and `espeak-ng-data` when required).
 4. Put model files in `android-app/app/src/main/assets/voice/en/` or `android-app/app/src/main/assets/voice/ar/`.
 5. Rebuild APK in Actions.
 
