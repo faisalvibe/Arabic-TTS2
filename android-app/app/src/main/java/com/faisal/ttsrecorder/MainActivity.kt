@@ -13,6 +13,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var tts: TextToSpeech
     private lateinit var textInput: EditText
     private lateinit var statusText: TextView
+    private lateinit var personalVoiceEngine: PersonalVoiceEngine
     private var ready = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         textInput = findViewById(R.id.textInput)
         statusText = findViewById(R.id.statusText)
+        personalVoiceEngine = PersonalVoiceEngine(this)
         tts = TextToSpeech(this, this)
 
         val speakButton = findViewById<Button>(R.id.speakButton)
@@ -34,6 +36,16 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             val text = textInput.text.toString().trim()
             if (text.isEmpty()) {
                 statusText.text = getString(R.string.enter_text_hint)
+                return@setOnClickListener
+            }
+
+            val customMode = findViewById<RadioButton>(R.id.modeCustom).isChecked
+            if (customMode) {
+                if (!personalVoiceEngine.isModelInstalled()) {
+                    statusText.text = getString(R.string.custom_voice_missing)
+                    return@setOnClickListener
+                }
+                statusText.text = getString(R.string.custom_voice_missing)
                 return@setOnClickListener
             }
 

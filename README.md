@@ -9,6 +9,7 @@ What the current APK does:
 - Local on-device speech (no server required for playback)
 - Type text, choose English/Arabic, and tap **Speak**
 - Uses Android's built-in offline TTS engine on the phone
+- Includes **My Voice (Model)** mode with model-file check (`app/src/main/assets/voice/`)
 
 Workflow file:
 
@@ -35,8 +36,9 @@ Practical path:
 
 1. Record more high-quality clips (target 30-60+ minutes for decent quality).
 2. Export dataset with `scripts/mini_tts/export_dataset.py`.
-3. Train/export a mobile-ready model from that dataset.
-4. Integrate the exported model into `android-app` and rebuild APK in Actions.
+3. Train/export a mobile-ready model from that dataset (`model.onnx` + `tokens.txt`).
+4. Put model files in `android-app/app/src/main/assets/voice/`.
+5. Rebuild APK in Actions.
 
 ## Export training manifests from recorder sessions
 
