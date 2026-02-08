@@ -2,6 +2,8 @@ package com.faisal.ttsrecorder
 
 import android.content.Context
 import android.os.Build
+import android.system.Os
+import android.system.OsConstants
 import java.io.File
 import java.io.FileWriter
 import java.text.SimpleDateFormat
@@ -21,9 +23,14 @@ object DebugLog {
     }
 
     fun appStartup() {
+        val pageSize = try {
+            Os.sysconf(OsConstants._SC_PAGESIZE)
+        } catch (_: Exception) {
+            -1L
+        }
         i(
             "APP",
-            "startup sdk=${Build.VERSION.SDK_INT} device=${Build.MANUFACTURER}/${Build.MODEL} abi=${Build.SUPPORTED_ABIS.joinToString()}"
+            "startup sdk=${Build.VERSION.SDK_INT} device=${Build.MANUFACTURER}/${Build.MODEL} abi=${Build.SUPPORTED_ABIS.joinToString()} pageSize=$pageSize"
         )
     }
 
