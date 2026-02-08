@@ -24,58 +24,73 @@ class PersonalVoiceEngine(private val context: Context) {
         val dir = modelDir(lang)
         return try {
             val files = context.assets.list(dir) ?: return false
-            files.contains("model.onnx") && files.contains("tokens.txt")
+            val ok = files.contains("model.onnx") && files.contains("tokens.txt")
+            DebugLog.i("ENGINE", "isModelInstalled lang=$lang dir=$dir ok=$ok files=${files.joinToString()}")
+            ok
         } catch (_: Exception) {
+            DebugLog.i("ENGINE", "isModelInstalled lang=$lang dir=$dir failed_to_list_assets")
             false
         }
     }
 
     fun speak(text: String, lang: VoiceLang, onDone: (String) -> Unit) {
         if (isSpeaking) {
+            DebugLog.i("ENGINE", "speak_rejected_already_speaking lang=$lang")
             onDone("Already speaking. Tap Stop and try again.")
             return
         }
         if (!isModelInstalled(lang)) {
+            DebugLog.i("ENGINE", "speak_rejected_model_missing lang=$lang")
             onDone("Model files missing in assets/${modelDir(lang)}.")
             return
         }
 
         Thread {
             isSpeaking = true
+            DebugLog.i("ENGINE", "speak_start lang=$lang text_len=${text.length}")
             try {
                 val tts = ensureTts(lang)
+                DebugLog.i("ENGINE", "generate_start lang=$lang")
                 val audio = tts.generate(text = text, sid = 0, speed = 1.0f)
+                DebugLog.i("ENGINE", "generate_done lang=$lang samples=${audio.samples.size} sampleRate=${audio.sampleRate}")
                 if (audio.samples.isEmpty()) {
+                    isSpeaking = false
                     onDone("Synthesis failed: empty audio.")
                     return@Thread
                 }
 
                 val out = File(context.filesDir, "personal_voice_${lang.name.lowercase()}.wav")
                 audio.save(out.absolutePath)
+                DebugLog.i("ENGINE", "audio_saved path=${out.absolutePath} bytes=${out.length()}")
 
                 player?.release()
                 player = MediaPlayer().apply {
                     setDataSource(out.absolutePath)
                     prepare()
                     start()
+                    DebugLog.i("ENGINE", "playback_started lang=$lang")
                     setOnCompletionListener {
                         isSpeaking = false
+                        DebugLog.i("ENGINE", "playback_completed lang=$lang")
                         onDone("Done.")
                     }
                     setOnErrorListener { _, _, _ ->
                         isSpeaking = false
+                        DebugLog.i("ENGINE", "playback_error lang=$lang")
                         onDone("Playback failed.")
                         true
                     }
                 }
             } catch (e: Exception) {
                 isSpeaking = false
+                DebugLog.e("ENGINE", "speak_exception lang=$lang msg=${e.message}", e)
                 onDone("Synthesis failed: ${e.message}")
             }
         }.start()
     }
 
     fun stop() {
+        DebugLog.i("ENGINE", "stop")
         player?.stop()
         player?.release()
         player = null
@@ -87,11 +102,13 @@ class PersonalVoiceEngine(private val context: Context) {
         if (lang == VoiceLang.AR && ttsAr != null) return ttsAr!!
 
         val dir = modelDir(lang)
+        DebugLog.i("ENGINE", "ensureTts_create lang=$lang dir=$dir")
         val hasEspeakData = try {
             (context.assets.list(dir) ?: emptyArray()).contains("espeak-ng-data")
         } catch (_: Exception) {
             false
         }
+        DebugLog.i("ENGINE", "ensureTts_espeak lang=$lang hasEspeakData=$hasEspeakData")
 
         val modelConfig = OfflineTtsModelConfig(
             vits = OfflineTtsVitsModelConfig(
@@ -106,6 +123,7 @@ class PersonalVoiceEngine(private val context: Context) {
         )
         val config = OfflineTtsConfig(model = modelConfig)
         val instance = OfflineTts(context.assets, config)
+        DebugLog.i("ENGINE", "ensureTts_created lang=$lang")
         if (lang == VoiceLang.EN) {
             ttsEn = instance
         } else {

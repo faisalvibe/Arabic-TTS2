@@ -8,6 +8,8 @@
     <string name="arabic_label">Arabic</string>
     <string name="speak_button">Speak</string>
     <string name="stop_button">Stop</string>
+    <string name="copy_logs_button">Copy Logs</string>
+    <string name="clear_logs_button">Clear Logs</string>
     <string name="tts_loading">Loading ONNX speech engine…</string>
     <string name="tts_ready">ONNX voice engine ready.</string>
     <string name="tts_not_ready">ONNX model files are missing.</string>
@@ -15,5 +17,7 @@
     <string name="custom_voice_missing_ar">Arabic model not found in assets/voice/ar.</string>
     <string name="speaking_status">Speaking…</string>
     <string name="stopped_status">Stopped.</string>
+    <string name="logs_copied_status">Logs copied to clipboard from %1$s</string>
+    <string name="logs_cleared_status">Logs cleared.</string>
     <string name="personal_voice_note">This app uses only ONNX models. Demo APK bundles English and Arabic models in assets/voice/en and assets/voice/ar.</string>
 </resources>

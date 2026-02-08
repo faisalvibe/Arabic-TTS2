@@ -10,6 +10,7 @@ What the current APK does:
 - Type text, choose English/Arabic, and tap **Speak**
 - Uses ONNX model inference only (no Android system TTS)
 - Includes demo English + Arabic ONNX models in `android-app/app/src/main/assets/voice/en` and `android-app/app/src/main/assets/voice/ar`
+- Includes in-app debug logging (`Copy Logs` / `Clear Logs`) to diagnose crashes
 
 Workflow file:
 
