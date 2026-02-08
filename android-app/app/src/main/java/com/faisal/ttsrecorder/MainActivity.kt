@@ -45,7 +45,12 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     statusText.text = getString(R.string.custom_voice_missing)
                     return@setOnClickListener
                 }
-                statusText.text = getString(R.string.custom_voice_missing)
+                statusText.text = getString(R.string.speaking_status)
+                personalVoiceEngine.speak(text) { result ->
+                    runOnUiThread {
+                        statusText.text = result
+                    }
+                }
                 return@setOnClickListener
             }
 
@@ -66,6 +71,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             if (ready) {
                 tts.stop()
             }
+            personalVoiceEngine.stop()
             statusText.text = getString(R.string.stopped_status)
         }
     }
@@ -80,6 +86,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     override fun onDestroy() {
+        personalVoiceEngine.stop()
         if (::tts.isInitialized) {
             tts.stop()
             tts.shutdown()

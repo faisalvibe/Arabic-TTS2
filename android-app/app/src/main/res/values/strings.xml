@@ -14,8 +14,8 @@
     <string name="tts_ready">Speech engine ready.</string>
     <string name="tts_not_ready">Speech engine not ready.</string>
     <string name="language_not_supported">Selected language voice is not installed on this device.</string>
-    <string name="custom_voice_missing">Custom voice model is not installed yet. Build APK with model files in app/src/main/assets/voice/.</string>
+    <string name="custom_voice_missing">Model voice files not found in assets/voice (model.onnx + tokens.txt).</string>
     <string name="speaking_status">Speaking…</string>
     <string name="stopped_status">Stopped.</string>
-    <string name="personal_voice_note">Next step: plug in your trained custom on-device voice model to replace the system voice.</string>
+    <string name="personal_voice_note">Demo build includes an ONNX model voice. Replace assets/voice/model.onnx + tokens.txt with your own trained model to use your exact voice.</string>
 </resources>

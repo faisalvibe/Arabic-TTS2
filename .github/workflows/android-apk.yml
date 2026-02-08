@@ -37,6 +37,16 @@ jobs:
       - name: Generate Gradle wrapper (if missing)
         run: gradle -p android-app wrapper --gradle-version 8.7
 
+      - name: Download demo ONNX voice model
+        run: |
+          set -eux
+          mkdir -p android-app/app/src/main/assets/voice
+          curl -L -o /tmp/demo-voice.tar.bz2 \
+            https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-coqui-de-css10.tar.bz2
+          tar -xjf /tmp/demo-voice.tar.bz2 -C /tmp
+          cp /tmp/vits-coqui-de-css10/model.onnx android-app/app/src/main/assets/voice/model.onnx
+          cp /tmp/vits-coqui-de-css10/tokens.txt android-app/app/src/main/assets/voice/tokens.txt
+
       - name: Build debug APK
         run: ./android-app/gradlew -p android-app assembleDebug --stacktrace
 
