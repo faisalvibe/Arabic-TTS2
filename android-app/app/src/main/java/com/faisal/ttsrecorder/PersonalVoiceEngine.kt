@@ -62,13 +62,18 @@ class PersonalVoiceEngine(private val context: Context) {
 
     private fun ensureTts() {
         if (tts != null) return
+        val hasEspeakData = try {
+            (context.assets.list("voice") ?: emptyArray()).contains("espeak-ng-data")
+        } catch (_: Exception) {
+            false
+        }
 
         val modelConfig = OfflineTtsModelConfig(
             vits = OfflineTtsVitsModelConfig(
                 model = "voice/model.onnx",
                 tokens = "voice/tokens.txt",
                 lexicon = "",
-                dataDir = ""
+                dataDir = if (hasEspeakData) "voice/espeak-ng-data" else ""
             ),
             numThreads = 2,
             debug = false,

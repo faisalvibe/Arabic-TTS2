@@ -42,10 +42,12 @@ jobs:
           set -eux
           mkdir -p android-app/app/src/main/assets/voice
           curl -L -o /tmp/demo-voice.tar.bz2 \
-            https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-coqui-de-css10.tar.bz2
+            https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-lessac-medium.tar.bz2
           tar -xjf /tmp/demo-voice.tar.bz2 -C /tmp
-          cp /tmp/vits-coqui-de-css10/model.onnx android-app/app/src/main/assets/voice/model.onnx
-          cp /tmp/vits-coqui-de-css10/tokens.txt android-app/app/src/main/assets/voice/tokens.txt
+          cp /tmp/vits-piper-en_US-lessac-medium/*.onnx android-app/app/src/main/assets/voice/model.onnx
+          cp /tmp/vits-piper-en_US-lessac-medium/tokens.txt android-app/app/src/main/assets/voice/tokens.txt
+          rm -rf android-app/app/src/main/assets/voice/espeak-ng-data
+          cp -R /tmp/vits-piper-en_US-lessac-medium/espeak-ng-data android-app/app/src/main/assets/voice/espeak-ng-data
 
       - name: Build debug APK
         run: ./android-app/gradlew -p android-app assembleDebug --stacktrace
