@@ -47,12 +47,5 @@ dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
-    // Prefer the official prebuilt Android AAR dropped into app/libs by CI.
-    // Fallback to JitPack only for local syncs when the AAR is not present.
-    val sherpaAar = file("libs/sherpa-onnx-1.12.23.aar")
-    if (sherpaAar.exists()) {
-        implementation(files(sherpaAar))
-    } else {
-        implementation("com.github.k2-fsa:sherpa-onnx:v1.12.20")
-    }
+    implementation("com.github.k2-fsa:sherpa-onnx:v1.12.23")
 }
