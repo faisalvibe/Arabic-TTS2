@@ -35,6 +35,12 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+
+    // Sherpa loads model assets through native file descriptors.
+    // Compressed assets can break that path and crash during native init.
+    androidResources {
+        noCompress += listOf("onnx", "json", "txt")
+    }
 }
 
 dependencies {

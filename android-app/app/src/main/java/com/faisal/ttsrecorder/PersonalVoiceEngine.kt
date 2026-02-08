@@ -110,6 +110,9 @@ class PersonalVoiceEngine(private val context: Context) {
 
         val dir = modelDir(lang)
         DebugLog.i("ENGINE", "ensureTts_create lang=$lang dir=$dir")
+        logAssetFdState("$dir/model.onnx")
+        logAssetFdState("$dir/model.onnx.json")
+        logAssetFdState("$dir/tokens.txt")
         val hasEspeakData = try {
             (context.assets.list(dir) ?: emptyArray()).contains("espeak-ng-data")
         } catch (_: Exception) {
@@ -145,5 +148,14 @@ class PersonalVoiceEngine(private val context: Context) {
 
     private fun modelDir(lang: VoiceLang): String {
         return if (lang == VoiceLang.EN) "voice/en" else "voice/ar"
+    }
+
+    private fun logAssetFdState(assetPath: String) {
+        try {
+            context.assets.openFd(assetPath).close()
+            DebugLog.i("ENGINE", "asset_fd_ok path=$assetPath")
+        } catch (e: Exception) {
+            DebugLog.e("ENGINE", "asset_fd_fail path=$assetPath msg=${e.message}", e)
+        }
     }
 }
