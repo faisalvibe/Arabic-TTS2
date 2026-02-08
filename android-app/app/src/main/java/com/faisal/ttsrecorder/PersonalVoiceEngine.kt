@@ -17,6 +17,8 @@ class PersonalVoiceEngine(private val context: Context) {
     private var ttsEn: OfflineTts? = null
     private var ttsAr: OfflineTts? = null
     private var player: MediaPlayer? = null
+    @Volatile
+    private var isSpeaking = false
 
     fun isModelInstalled(lang: VoiceLang): Boolean {
         val dir = modelDir(lang)
@@ -29,12 +31,17 @@ class PersonalVoiceEngine(private val context: Context) {
     }
 
     fun speak(text: String, lang: VoiceLang, onDone: (String) -> Unit) {
+        if (isSpeaking) {
+            onDone("Already speaking. Tap Stop and try again.")
+            return
+        }
         if (!isModelInstalled(lang)) {
             onDone("Model files missing in assets/${modelDir(lang)}.")
             return
         }
 
         Thread {
+            isSpeaking = true
             try {
                 val tts = ensureTts(lang)
                 val audio = tts.generate(text = text, sid = 0, speed = 1.0f)
@@ -52,10 +59,17 @@ class PersonalVoiceEngine(private val context: Context) {
                     prepare()
                     start()
                     setOnCompletionListener {
+                        isSpeaking = false
                         onDone("Done.")
+                    }
+                    setOnErrorListener { _, _, _ ->
+                        isSpeaking = false
+                        onDone("Playback failed.")
+                        true
                     }
                 }
             } catch (e: Exception) {
+                isSpeaking = false
                 onDone("Synthesis failed: ${e.message}")
             }
         }.start()
@@ -65,6 +79,7 @@ class PersonalVoiceEngine(private val context: Context) {
         player?.stop()
         player?.release()
         player = null
+        isSpeaking = false
     }
 
     private fun ensureTts(lang: VoiceLang): OfflineTts {
@@ -85,7 +100,7 @@ class PersonalVoiceEngine(private val context: Context) {
                 lexicon = "",
                 dataDir = if (hasEspeakData) "$dir/espeak-ng-data" else ""
             ),
-            numThreads = 2,
+            numThreads = 1,
             debug = false,
             provider = "cpu"
         )
