@@ -2,7 +2,6 @@ package com.faisal.ttsrecorder
 
 import android.content.Context
 import android.media.MediaPlayer
-import android.os.Build
 import com.k2fsa.sherpa.onnx.OfflineTts
 import com.k2fsa.sherpa.onnx.OfflineTtsConfig
 import com.k2fsa.sherpa.onnx.OfflineTtsModelConfig
@@ -118,10 +117,12 @@ class PersonalVoiceEngine(private val context: Context) {
         } catch (_: Exception) {
             false
         }
-        val useEspeakData = hasEspeakData && Build.VERSION.SDK_INT < 36
+        // Piper voices rely on espeak-ng data for phoneme processing.
+        // Disabling it can crash native init on some devices/OS versions.
+        val useEspeakData = hasEspeakData
         DebugLog.i(
             "ENGINE",
-            "ensureTts_espeak lang=$lang hasEspeakData=$hasEspeakData useEspeakData=$useEspeakData sdk=${Build.VERSION.SDK_INT}"
+            "ensureTts_espeak lang=$lang hasEspeakData=$hasEspeakData useEspeakData=$useEspeakData"
         )
 
         val modelConfig = OfflineTtsModelConfig(
