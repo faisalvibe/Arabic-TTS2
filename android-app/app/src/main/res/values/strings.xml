@@ -6,16 +6,14 @@
     <string name="enter_text_hint">Type text here...</string>
     <string name="english_label">English</string>
     <string name="arabic_label">Arabic</string>
-    <string name="mode_system">System Voice</string>
-    <string name="mode_custom">My Voice (Model)</string>
     <string name="speak_button">Speak</string>
     <string name="stop_button">Stop</string>
-    <string name="tts_loading">Loading speech engine…</string>
-    <string name="tts_ready">Speech engine ready.</string>
-    <string name="tts_not_ready">Speech engine not ready.</string>
-    <string name="language_not_supported">Selected language voice is not installed on this device.</string>
-    <string name="custom_voice_missing">Model voice files not found in assets/voice (model.onnx + tokens.txt).</string>
+    <string name="tts_loading">Loading ONNX speech engine…</string>
+    <string name="tts_ready">ONNX voice engine ready.</string>
+    <string name="tts_not_ready">ONNX model files are missing.</string>
+    <string name="custom_voice_missing_en">English model not found in assets/voice/en.</string>
+    <string name="custom_voice_missing_ar">Arabic model not found in assets/voice/ar.</string>
     <string name="speaking_status">Speaking…</string>
     <string name="stopped_status">Stopped.</string>
-    <string name="personal_voice_note">Demo build includes an ONNX model voice. Replace assets/voice/model.onnx + tokens.txt with your own trained model to use your exact voice.</string>
+    <string name="personal_voice_note">This app uses only ONNX models. Demo APK bundles English and Arabic models in assets/voice/en and assets/voice/ar.</string>
 </resources>

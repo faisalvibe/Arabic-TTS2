@@ -1,7 +1,7 @@
-Place your exported on-device custom voice files here:
+ONNX model folders:
 
-- model.onnx
-- tokens.txt
+- voice/en/model.onnx + voice/en/tokens.txt (+ optional voice/en/espeak-ng-data)
+- voice/ar/model.onnx + voice/ar/tokens.txt (+ optional voice/ar/espeak-ng-data)
 
-This APK uses these files for real on-device synthesis in "My Voice (Model)" mode.
-The GitHub Actions demo build can auto-download a public demo model into this folder.
+This app uses ONNX models only (no Android system TTS).
+The GitHub Actions demo build auto-downloads one English and one Arabic model.

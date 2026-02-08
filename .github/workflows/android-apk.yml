@@ -37,17 +37,29 @@ jobs:
       - name: Generate Gradle wrapper (if missing)
         run: gradle -p android-app wrapper --gradle-version 8.7
 
-      - name: Download demo ONNX voice model
+      - name: Download demo ONNX voice models (EN + AR)
         run: |
           set -eux
-          mkdir -p android-app/app/src/main/assets/voice
-          curl -L -o /tmp/demo-voice.tar.bz2 \
+          mkdir -p android-app/app/src/main/assets/voice/en
+          mkdir -p android-app/app/src/main/assets/voice/ar
+
+          curl -L -o /tmp/demo-voice-en.tar.bz2 \
             https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-lessac-medium.tar.bz2
-          tar -xjf /tmp/demo-voice.tar.bz2 -C /tmp
-          cp /tmp/vits-piper-en_US-lessac-medium/*.onnx android-app/app/src/main/assets/voice/model.onnx
-          cp /tmp/vits-piper-en_US-lessac-medium/tokens.txt android-app/app/src/main/assets/voice/tokens.txt
-          rm -rf android-app/app/src/main/assets/voice/espeak-ng-data
-          cp -R /tmp/vits-piper-en_US-lessac-medium/espeak-ng-data android-app/app/src/main/assets/voice/espeak-ng-data
+          curl -L -o /tmp/demo-voice-ar.tar.bz2 \
+            https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-ar_JO-kareem-medium.tar.bz2
+
+          tar -xjf /tmp/demo-voice-en.tar.bz2 -C /tmp
+          tar -xjf /tmp/demo-voice-ar.tar.bz2 -C /tmp
+
+          cp /tmp/vits-piper-en_US-lessac-medium/*.onnx android-app/app/src/main/assets/voice/en/model.onnx
+          cp /tmp/vits-piper-en_US-lessac-medium/tokens.txt android-app/app/src/main/assets/voice/en/tokens.txt
+          rm -rf android-app/app/src/main/assets/voice/en/espeak-ng-data
+          cp -R /tmp/vits-piper-en_US-lessac-medium/espeak-ng-data android-app/app/src/main/assets/voice/en/espeak-ng-data
+
+          cp /tmp/vits-piper-ar_JO-kareem-medium/*.onnx android-app/app/src/main/assets/voice/ar/model.onnx
+          cp /tmp/vits-piper-ar_JO-kareem-medium/tokens.txt android-app/app/src/main/assets/voice/ar/tokens.txt
+          rm -rf android-app/app/src/main/assets/voice/ar/espeak-ng-data
+          cp -R /tmp/vits-piper-ar_JO-kareem-medium/espeak-ng-data android-app/app/src/main/assets/voice/ar/espeak-ng-data
 
       - name: Build debug APK
         run: ./android-app/gradlew -p android-app assembleDebug --stacktrace

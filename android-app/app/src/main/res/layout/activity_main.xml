@@ -54,32 +54,10 @@
                 android:text="@string/arabic_label" />
         </RadioGroup>
 
-        <RadioGroup
-            android:id="@+id/voiceModeGroup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/modeSystem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/mode_system" />
-
-            <RadioButton
-                android:id="@+id/modeCustom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@string/mode_custom" />
-        </RadioGroup>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="14dp"
             android:orientation="horizontal">
 
             <Button

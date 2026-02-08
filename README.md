@@ -8,8 +8,8 @@ What the current APK does:
 
 - Local on-device speech (no server required for playback)
 - Type text, choose English/Arabic, and tap **Speak**
-- Uses Android's built-in offline TTS engine on the phone
-- Includes **My Voice (Model)** mode with model-file check (`app/src/main/assets/voice/`)
+- Uses ONNX model inference only (no Android system TTS)
+- Includes demo English + Arabic ONNX models in `android-app/app/src/main/assets/voice/en` and `android-app/app/src/main/assets/voice/ar`
 
 Workflow file:
 
@@ -29,15 +29,15 @@ Your custom voice requires a dedicated exported mobile model (ONNX/other) traine
 Current status:
 
 - Recorder + dataset export is ready.
-- Android app UI is ready.
-- Custom on-device voice engine/model integration is the next step.
+- Android app uses on-device ONNX synthesis.
+- Replace bundled demo models with your own exported models for personal voice.
 
 Practical path:
 
 1. Record more high-quality clips (target 30-60+ minutes for decent quality).
 2. Export dataset with `scripts/mini_tts/export_dataset.py`.
-3. Train/export a mobile-ready model from that dataset (`model.onnx` + `tokens.txt`).
-4. Put model files in `android-app/app/src/main/assets/voice/`.
+3. Train/export a mobile-ready model from that dataset (`model.onnx` + `tokens.txt`, and `espeak-ng-data` when required).
+4. Put model files in `android-app/app/src/main/assets/voice/en/` or `android-app/app/src/main/assets/voice/ar/`.
 5. Rebuild APK in Actions.
 
 ## Export training manifests from recorder sessions
