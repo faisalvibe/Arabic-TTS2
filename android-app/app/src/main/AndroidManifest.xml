@@ -6,9 +6,9 @@
     <application
         android:allowBackup="true"
         android:icon="@android:drawable/sym_def_app_icon"
-        android:label="TTS Recorder"
+        android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+        android:theme="@style/Theme.ArabicTTS2">
         <activity
             android:name=".MainActivity"
             android:exported="true">

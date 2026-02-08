@@ -1,0 +1,12 @@
+# Local virtual environments
+.venv/
+.venv310/
+.venv311/
+
+# Generated audio/data artifacts
+mini-tts-out/
+dataset-export/
+
+# Node / Vercel local cache
+node_modules/
+.vercel/

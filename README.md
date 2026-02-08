@@ -4,6 +4,12 @@
 
 This repo includes a CI workflow that builds an Android debug APK and uploads it as an artifact.
 
+What the current APK does:
+
+- Local on-device speech (no server required for playback)
+- Type text, choose English/Arabic, and tap **Speak**
+- Uses Android's built-in offline TTS engine on the phone
+
 Workflow file:
 
 - `.github/workflows/android-apk.yml`
@@ -14,6 +20,23 @@ How to use:
 2. Go to **Actions**.
 3. Run **Build Android APK**.
 4. Download artifact **`tts-recorder-debug-apk`**.
+
+## Personalized Voice (your own voice) on device
+
+Your custom voice requires a dedicated exported mobile model (ONNX/other) trained on your recordings.
+
+Current status:
+
+- Recorder + dataset export is ready.
+- Android app UI is ready.
+- Custom on-device voice engine/model integration is the next step.
+
+Practical path:
+
+1. Record more high-quality clips (target 30-60+ minutes for decent quality).
+2. Export dataset with `scripts/mini_tts/export_dataset.py`.
+3. Train/export a mobile-ready model from that dataset.
+4. Integrate the exported model into `android-app` and rebuild APK in Actions.
 
 ## Export training manifests from recorder sessions
 
