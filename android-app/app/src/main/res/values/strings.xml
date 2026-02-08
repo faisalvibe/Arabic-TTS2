@@ -17,6 +17,8 @@
     <string name="custom_voice_missing_ar">Arabic model not found in assets/voice/ar.</string>
     <string name="speaking_status">Speaking…</string>
     <string name="stopped_status">Stopped.</string>
+    <string name="engine_unavailable_status">TTS engine is unavailable. Reconnecting…</string>
+    <string name="engine_crashed_status">TTS engine crashed and restarted. Please tap Speak again.</string>
     <string name="logs_copied_status">Logs copied to clipboard from %1$s</string>
     <string name="logs_cleared_status">Logs cleared.</string>
     <string name="personal_voice_note">This app uses only ONNX models. Demo APK bundles English and Arabic models in assets/voice/en and assets/voice/ar.</string>
