@@ -2,6 +2,7 @@ package com.faisal.ttsrecorder
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.os.Build
 import com.k2fsa.sherpa.onnx.OfflineTts
 import com.k2fsa.sherpa.onnx.OfflineTtsConfig
 import com.k2fsa.sherpa.onnx.OfflineTtsModelConfig
@@ -114,14 +115,18 @@ class PersonalVoiceEngine(private val context: Context) {
         } catch (_: Exception) {
             false
         }
-        DebugLog.i("ENGINE", "ensureTts_espeak lang=$lang hasEspeakData=$hasEspeakData")
+        val useEspeakData = hasEspeakData && Build.VERSION.SDK_INT < 36
+        DebugLog.i(
+            "ENGINE",
+            "ensureTts_espeak lang=$lang hasEspeakData=$hasEspeakData useEspeakData=$useEspeakData sdk=${Build.VERSION.SDK_INT}"
+        )
 
         val modelConfig = OfflineTtsModelConfig(
             vits = OfflineTtsVitsModelConfig(
                 model = "$dir/model.onnx",
                 tokens = "$dir/tokens.txt",
                 lexicon = "",
-                dataDir = if (hasEspeakData) "$dir/espeak-ng-data" else ""
+                dataDir = if (useEspeakData) "$dir/espeak-ng-data" else ""
             ),
             numThreads = 1,
             debug = false,
