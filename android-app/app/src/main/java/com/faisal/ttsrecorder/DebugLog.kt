@@ -60,6 +60,19 @@ object DebugLog {
         return getLogFile()?.absolutePath ?: "unavailable"
     }
 
+    fun buildReport(): String {
+        val now = timeFormat.format(Date())
+        return buildString {
+            append("TTS Debug Report\n")
+            append("Generated: ").append(now).append("\n")
+            append("SDK: ").append(Build.VERSION.SDK_INT).append("\n")
+            append("Device: ").append(Build.MANUFACTURER).append("/").append(Build.MODEL).append("\n")
+            append("ABI: ").append(Build.SUPPORTED_ABIS.joinToString()).append("\n")
+            append("Log file: ").append(filePath()).append("\n\n")
+            append(readAll())
+        }
+    }
+
     private fun append(level: String, tag: String, msg: String, tr: Throwable?) {
         val line = buildString {
             append(timeFormat.format(Date()))

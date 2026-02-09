@@ -98,6 +98,13 @@
                 android:text="@string/clear_logs_button" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/shareLogsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/share_logs_button" />
+
         <TextView
             android:id="@+id/statusText"
             android:layout_width="match_parent"

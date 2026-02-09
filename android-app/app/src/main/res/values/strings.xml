@@ -9,6 +9,7 @@
     <string name="speak_button">Speak</string>
     <string name="stop_button">Stop</string>
     <string name="copy_logs_button">Copy Logs</string>
+    <string name="share_logs_button">Share Logs</string>
     <string name="clear_logs_button">Clear Logs</string>
     <string name="tts_loading">Loading ONNX speech engine…</string>
     <string name="tts_ready">ONNX voice engine ready.</string>
@@ -20,6 +21,8 @@
     <string name="engine_unavailable_status">TTS engine is unavailable. Reconnecting…</string>
     <string name="engine_crashed_status">TTS engine crashed and restarted. Please tap Speak again.</string>
     <string name="logs_copied_status">Logs copied to clipboard from %1$s</string>
+    <string name="logs_shared_status">Share sheet opened.</string>
+    <string name="logs_share_error_status">No app available to share logs.</string>
     <string name="logs_cleared_status">Logs cleared.</string>
     <string name="personal_voice_note">This app uses only ONNX models. Demo APK bundles English and Arabic models in assets/voice/en and assets/voice/ar.</string>
 </resources>

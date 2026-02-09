@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.ActivityNotFoundException
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.Handler
@@ -84,6 +85,7 @@ class MainActivity : AppCompatActivity() {
         val stopButton = findViewById<Button>(R.id.stopButton)
         val copyLogsButton = findViewById<Button>(R.id.copyLogsButton)
         val clearLogsButton = findViewById<Button>(R.id.clearLogsButton)
+        val shareLogsButton = findViewById<Button>(R.id.shareLogsButton)
 
         speakButton.setOnClickListener {
             val text = textInput.text.toString().trim()
@@ -136,6 +138,23 @@ class MainActivity : AppCompatActivity() {
             DebugLog.clear()
             DebugLog.i("MAIN", "logs_cleared")
             statusText.text = getString(R.string.logs_cleared_status)
+        }
+
+        shareLogsButton.setOnClickListener {
+            val report = DebugLog.buildReport()
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_SUBJECT, "Arabic-TTS2 debug logs")
+                putExtra(Intent.EXTRA_TEXT, report)
+            }
+            try {
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_logs_button)))
+                DebugLog.i("MAIN", "logs_share_opened")
+                statusText.text = getString(R.string.logs_shared_status)
+            } catch (_: ActivityNotFoundException) {
+                DebugLog.i("MAIN", "logs_share_no_target")
+                statusText.text = getString(R.string.logs_share_error_status)
+            }
         }
     }
 
