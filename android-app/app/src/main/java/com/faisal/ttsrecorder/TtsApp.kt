@@ -7,6 +7,7 @@ class TtsApp : Application() {
         super.onCreate()
         DebugLog.init(this)
         DebugLog.appStartup()
+        DebugLog.logRecentProcessExit()
 
         val defaultHandler = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
