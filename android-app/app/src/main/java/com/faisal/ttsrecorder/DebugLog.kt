@@ -1,6 +1,7 @@
 package com.faisal.ttsrecorder
 
 import android.app.ActivityManager
+import android.app.Application
 import android.app.ApplicationExitInfo
 import android.content.Context
 import android.os.Build
