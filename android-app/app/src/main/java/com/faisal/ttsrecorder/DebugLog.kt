@@ -92,14 +92,16 @@ object DebugLog {
         val ctx = appContext ?: return
         try {
             val am = ctx.getSystemService(Context.ACTIVITY_SERVICE) as? ActivityManager ?: return
-            val processName = Application.getProcessName()
-            val exits = am.getHistoricalProcessExitReasons(ctx.packageName, processName, 1)
-            val info = exits.firstOrNull() ?: return
+            val currentProcessName = Application.getProcessName()
+            val exits = am.getHistoricalProcessExitReasons(ctx.packageName, 0, 8)
+            val info = exits.firstOrNull { it.processName?.contains(":tts_engine") == true }
+                ?: exits.firstOrNull()
+                ?: return
 
             val reasonName = reasonToString(info.reason)
             i(
                 "APP",
-                "last_exit process=$processName reason=$reasonName status=${info.status} importance=${info.importance} timestamp=${info.timestamp} desc=${info.description ?: "none"}"
+                "last_exit current_process=$currentProcessName exit_process=${info.processName ?: "unknown"} reason=$reasonName status=${info.status} importance=${info.importance} timestamp=${info.timestamp} desc=${info.description ?: "none"}"
             )
 
             val trace = readTraceSnippet(info, maxLines = 40, maxChars = 3000)
